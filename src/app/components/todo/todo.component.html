@@ -9,8 +9,32 @@
         <input type="text" placeholder="Description" formControlName="description">
         <button type="submit" [disabled]="!newItemForm.valid" class="todo-form__btn">Add new item</button>
     </form>
+    <form 
+        [formGroup]="filterAndSearchForm"
+        class="todo-form"
+    >
+        <mat-form-field appearance="fill">
+            <mat-label>Sorting by:</mat-label>
+            <mat-select formControlName="sort" name="sort">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let item of sortForm" [value]="item.value">
+                {{item.viewValue}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Search</mat-label>
+            <input matInput formControlName="search">
+          </mat-form-field>
+    </form>
     <div class="todo-items">
         <app-card *ngFor="let item of allItems" [item]="item"></app-card>
+    </div>
+    <div class="todo-buttons">
+        <app-button title="Remove all done" (click)="removeAllDone()"></app-button>
+        <app-button title="Check all like done" (click)="changeStatusAll()"></app-button>
+        <app-button title="Remove all with pause" (click)="removeAll()"></app-button>
     </div>
     <span class="todo-item-counter">all items: {{ allItems.length }}</span>
 </div>

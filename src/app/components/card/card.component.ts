@@ -17,7 +17,7 @@ export class CardComponent implements OnInit {
   }
 
   public remove(): void{
-    this.store.dispatch(remove({item: this.item}))
+    this.store.dispatch(remove({id: this.item.id}))
   }
   public changeStatus(): void{
     this.store.dispatch(changeStatus({item: this.item}))

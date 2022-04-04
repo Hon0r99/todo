@@ -1,4 +1,4 @@
-<div class="card">
+<div  [ngClass]="['card', item.status ? 'done' : '']">
     <h2>{{ item.name }}</h2>
     <p>{{ item.description }}</p>
     <p>Status: {{ item.status ? 'done' : 'undone' }}</p>
