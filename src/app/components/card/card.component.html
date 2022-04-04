@@ -1,0 +1,9 @@
+<div class="card">
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.description }}</p>
+    <p>Status: {{ item.status ? 'done' : 'undone' }}</p>
+    <div class="card-buttons">
+        <app-button title="Done"></app-button>
+        <app-button type="remove" title="X"></app-button>
+    </div>
+</div>

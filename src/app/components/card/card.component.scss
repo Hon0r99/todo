@@ -1,0 +1,17 @@
+@import '../../variables.scss';
+
+.card {
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid $border-color-form;
+    border-radius: 5px;
+
+    &-buttons {
+        display: flex;
+        justify-content: flex-end;
+
+        app-button {
+            margin-left: 5px;
+        }
+    }
+}

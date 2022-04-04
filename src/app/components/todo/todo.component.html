@@ -1,0 +1,16 @@
+<div class="todo">
+    <h1>Todo app</h1>
+    <form 
+        [formGroup]="newItemForm" 
+        class="todo-form"
+        (ngSubmit)="addItem()"
+    >
+        <input type="text" placeholder="Name" formControlName="name">
+        <input type="text" placeholder="Description" formControlName="description">
+        <button type="submit" [disabled]="!newItemForm.valid" class="todo-form__btn">Add new item</button>
+    </form>
+    <div class="todo-items">
+        <app-card *ngFor="let item of allItems" [item]="item"></app-card>
+    </div>
+    <span class="todo-item-counter">all items: {{ allItems.length }}</span>
+</div>
