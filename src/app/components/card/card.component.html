@@ -3,7 +3,7 @@
     <p>{{ item.description }}</p>
     <p>Status: {{ item.status ? 'done' : 'undone' }}</p>
     <div class="card-buttons">
-        <app-button title="Done"></app-button>
-        <app-button type="remove" title="X"></app-button>
+        <app-button [title]="!item.status ? 'done' : 'undone'" (click)="changeStatus()"></app-button>
+        <app-button type="remove" title="X" (click)="remove()"></app-button>
     </div>
 </div>

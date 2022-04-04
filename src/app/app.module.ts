@@ -7,6 +7,8 @@ import { TodoComponent } from './components/todo/todo.component';
 import { CardComponent } from './components//card/card.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { itemsReducer } from './store/items.reducer';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot({items: itemsReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
