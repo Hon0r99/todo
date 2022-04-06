@@ -11,7 +11,8 @@
     flex-direction: column;
     align-items: center;
     padding: 1%;
-    background: rgb(201, 211, 234);
+    background: $background-color;
+    background-image: $background-image-grad;
     box-shadow: 8px 13px 15px #a9a8ab;
     border-radius: 5px;
 
@@ -41,5 +42,12 @@
         position: absolute;
         right: 15px;
         bottom: 5px;
+    }
+
+    &-buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px;
     }
 }

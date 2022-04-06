@@ -1,0 +1,40 @@
+@import '../../variables.scss';
+
+.start-screen {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $background-color;
+    background-image: $background-image-grad;
+
+    &-title {
+        font-size: 48px;
+        font-weight: bold;
+    }
+    
+    &-btn {
+       margin: 10px;
+       padding: 15px 45px;
+       text-align: center;
+       text-transform: uppercase;
+       transition: 0.5s;
+       background-size: 200% auto;
+       color: white;            
+       box-shadow: 0 0 20px #eee;
+       border-radius: 10px;
+       display: block;
+       border: none;
+       background-image: linear-gradient(to right, #283048 0%, #859398  51%, #283048  100%);
+       cursor: pointer;
+    }
+
+    &-btn:hover {
+       background-position: right center; /* change the direction of the change here */
+       color: #fff;
+       text-decoration: none;
+    }
+    
+}

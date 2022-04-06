@@ -53,8 +53,17 @@ export class TodoComponent implements OnInit {
   }
 
   public removeAll(): void{
-    setInterval(() => {
-      this.store.dispatch(removeLastItem());
+    let items: Item[];
+    let subs = this.items$.subscribe(data => {
+      items = data;
+    })
+    let timer = setInterval(() => {
+      if (items.length > 0){
+        this.store.dispatch(removeLastItem());
+      }else {
+        clearInterval(timer);
+        subs.unsubscribe()
+      }
     },1000)
   }
 

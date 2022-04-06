@@ -18,5 +18,5 @@
         <app-button title="Check all like done" (click)="changeStatusAll()"></app-button>
         <app-button title="Remove all with pause" (click)="removeAll()"></app-button>
     </div>
-    <span class="todo-item-counter">all items: {{ (items$ | async)?.length }}</span>
+    <span class="todo-item-counter">all items: {{ (items$ | async)?.length }} / done items: {{ ((items$ | async)! | filter: 'done').length}}</span>
 </div>
