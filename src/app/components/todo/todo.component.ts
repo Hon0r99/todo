@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { SearchFormValuesI, sortType } from 'src/app/models/types';
 import { add, changeStatusAll, get, removeAllDone, removeLastItem } from 'src/app/store/items.actions';
 import { Item } from '../../models/item';
 
@@ -10,61 +12,30 @@ import { Item } from '../../models/item';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  public allItems: Item[] = [];
+  public items$!: Observable<Item[]>;
   public idCounter: number = 1;
 
-  public sortForm = [
-    {value: 'name', viewValue: 'by name'},
-    {value: 'status', viewValue: 'by status'},
-  ];
+  public searchFormValues: SearchFormValuesI =  {
+    sort: 'status',
+    filter: 'all',
+    search: '',
+  };
 
-  public sortType: 'name' | 'status' = 'status'
-
-  constructor(private store: Store <{items: Item[]}>) {
-    store.select('items').subscribe((data)=> {
-      this.allItems = data;
-      this.sortItems();
-    })
-  }
+  constructor(private store: Store <{items: Item[]}>) {}
 
   ngOnInit(): void {
-    this.filterAndSearchForm.get('sort')?.valueChanges.subscribe(value => {
-      this.sortType = value;
-      this.sortItems();
-    })
-
-    this.filterAndSearchForm.get('search')?.valueChanges.subscribe(value => {
-      if (value !== ''){
-        this.allItems = this.allItems.filter(item => {
-          return item.name.toLowerCase().includes(value.toLowerCase()) || item.description.toLowerCase().includes(value.toLowerCase());
-        })
-      }else {
-        this.store.dispatch(get())
-      }
-    })
+    this.items$ = this.store.select('items');
   }
 
   public newItemForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required)
   })
-  public filterAndSearchForm: FormGroup = new FormGroup({
-    sort: new FormControl(''),
-    search: new FormControl('')
-  })
 
-  public sortItems(): void{
-    this.sortType === 'status'
-      ? this.allItems = [ ...this.allItems.filter(item => !item.status), ...this.allItems.filter(item => item.status)]
-      : this.allItems = [...this.allItems.sort((a, b) => {
-          if (a.name > b.name) {
-            return -1
-          }
-          if (a.name < b.name) {
-            return 1
-          }
-          return 0
-        })]
+  public chooseSortAndFilterType(searchFormValues: SearchFormValuesI): void{
+    this.searchFormValues.sort = searchFormValues.sort;
+    this.searchFormValues.filter = searchFormValues.filter;
+    this.searchFormValues.search = searchFormValues.search;
   }
 
   public addItem(): void{
@@ -74,22 +45,22 @@ export class TodoComponent implements OnInit {
       status: false, id: this.idCounter
     }}));
     this.newItemForm.reset();
-    this.idCounter ++
+    this.idCounter ++;
   }
 
   public removeAllDone(): void{
-    this.store.dispatch(removeAllDone())
+    this.store.dispatch(removeAllDone());
   }
 
   public removeAll(): void{
     setInterval(() => {
-      this.store.dispatch(removeLastItem())
+      this.store.dispatch(removeLastItem());
     },1000)
   }
 
 
   public changeStatusAll(): void{
-    this.store.dispatch(changeStatusAll())
+    this.store.dispatch(changeStatusAll());
   }
   
 }

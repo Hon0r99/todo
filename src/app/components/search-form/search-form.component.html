@@ -1,0 +1,27 @@
+<form 
+        [formGroup]="searchForm"
+        class="form"
+    >
+        <mat-form-field appearance="fill">
+            <mat-label>Sort by:</mat-label>
+            <mat-select formControlName="sort" name="sort">
+            <mat-option *ngFor="let item of sortFormValues" [value]="item.value">
+                {{item.viewValue}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Filter by:</mat-label>
+            <mat-select formControlName="filter" name="filter">
+            <mat-option *ngFor="let item of filterFormValues" [value]="item.value">
+                {{item.viewValue}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Search</mat-label>
+            <input matInput formControlName="search">
+          </mat-form-field>
+    </form>

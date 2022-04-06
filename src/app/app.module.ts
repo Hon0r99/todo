@@ -12,6 +12,10 @@ import { itemsReducer } from './store/items.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { SortPipe } from './pipes/sort.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
+import { SearchFormComponent } from './components/search-form/search-form.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +23,10 @@ import { MatInputModule } from '@angular/material/input';
     TodoComponent,
     CardComponent,
     ButtonComponent,
+    SortPipe,
+    FilterPipe,
+    SearchFormComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,
