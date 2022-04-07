@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { SearchFormValuesI, sortType } from 'src/app/models/types';
-import { add, changeStatusAll, get, removeAllDone, removeLastItem } from 'src/app/store/items.actions';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { Item } from '../../models/item';
 
 @Component({
@@ -13,7 +12,6 @@ import { Item } from '../../models/item';
 })
 export class TodoComponent implements OnInit {
   public items$!: Observable<Item[]>;
-  public idCounter: number = 1;
 
   public searchFormValues: SearchFormValuesI =  {
     sort: 'status',
@@ -21,10 +19,12 @@ export class TodoComponent implements OnInit {
     search: '',
   };
 
-  constructor(private store: Store <{items: Item[]}>) {}
+  constructor(private firebase: FirebaseService) {}
 
   ngOnInit(): void {
-    this.items$ = this.store.select('items');
+    setTimeout(() => {
+      this.items$ = this.firebase.getData();
+    },6000)
   }
 
   public newItemForm: FormGroup = new FormGroup({
@@ -39,37 +39,24 @@ export class TodoComponent implements OnInit {
   }
 
   public addItem(): void{
-    this.store.dispatch(add({item : {
+    this.firebase.addItem({
       name: this.newItemForm.value.name,
       description: this.newItemForm.value.description,
-      status: false, id: this.idCounter
-    }}));
-    this.newItemForm.reset();
-    this.idCounter ++;
+      status: false,
+    })
+    this.newItemForm.reset()
   }
 
   public removeAllDone(): void{
-    this.store.dispatch(removeAllDone());
+    this.firebase.removeAllDone()
   }
 
   public removeAll(): void{
-    let items: Item[];
-    let subs = this.items$.subscribe(data => {
-      items = data;
-    })
-    let timer = setInterval(() => {
-      if (items.length > 0){
-        this.store.dispatch(removeLastItem());
-      }else {
-        clearInterval(timer);
-        subs.unsubscribe()
-      }
-    },1000)
+    this.firebase.removeAll();
   }
 
-
   public changeStatusAll(): void{
-    this.store.dispatch(changeStatusAll());
+    this.firebase.changeStatusAll();
   }
   
 }

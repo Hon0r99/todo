@@ -1,5 +1,5 @@
 export interface Item {
-    id: number,
+    key: string,
     name: string,
     description: string,
     status: boolean

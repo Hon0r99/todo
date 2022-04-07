@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Item } from 'src/app/models/item';
-import { changeStatus, remove } from 'src/app/store/items.actions';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-card',
@@ -10,16 +10,17 @@ import { changeStatus, remove } from 'src/app/store/items.actions';
 })
 export class CardComponent implements OnInit {
   @Input() item!: Item;
-  
-  constructor(private store: Store<{item: Item[]}>) { }
+  @Input() itemKey!: string;
+
+  constructor(private firebase: FirebaseService) { }
 
   ngOnInit(): void {
   }
 
   public remove(): void{
-    this.store.dispatch(remove({id: this.item.id}))
+    this.firebase.removeItem(this.item.key)
   }
   public changeStatus(): void{
-    this.store.dispatch(changeStatus({item: this.item}))
+    this.firebase.changeStatus(this.item)
   }
 }
