@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { map, Observable, take, tap } from 'rxjs';
+import { interval, map, Observable, take, tap } from 'rxjs';
 import { Item } from '../models/item';
 
 @Injectable({
@@ -44,15 +44,17 @@ export class FirebaseService {
   public removeAll():void {
     let subs = this.items.pipe(
       tap((data: Item[]) => {
-              let timer = setInterval(() => {
-                if (data.length !== 0){
-                  this.removeItem(data[data.length - 1].key)
-                }else {
-                  clearInterval(timer)
-                  subs.unsubscribe()
-                }
-              },1000)  
-        })
+        let timer = interval(1000).pipe(
+          tap(() => {
+            if (data.length !== 0){
+              this.removeItem(data[data.length - 1].key);
+            }else {
+              subs.unsubscribe();
+              timer.unsubscribe();
+            }
+          })
+        ).subscribe()
+      })
     ).subscribe()
   }
 
